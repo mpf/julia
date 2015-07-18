@@ -133,7 +133,20 @@ Sorting Functions
 
    Variant of ``sort!`` that returns a sorted copy of ``v`` leaving ``v`` itself unmodified.
 
+   ::
+              sort(A, dim, [alg=<algorithm>,] [by=<transform>,] [lt=<comparison>,] [rev=false])
+
+   Sort a multidimensional array ``A`` along the given dimension.
+
 .. function:: sort(A, dim, [alg=<algorithm>,] [by=<transform>,] [lt=<comparison>,] [rev=false])
+
+   ::
+              sort(v, [alg=<algorithm>,] [by=<transform>,] [lt=<comparison>,] [rev=false])
+
+   Variant of ``sort!`` that returns a sorted copy of ``v`` leaving ``v`` itself unmodified.
+
+   ::
+              sort(A, dim, [alg=<algorithm>,] [by=<transform>,] [lt=<comparison>,] [rev=false])
 
    Sort a multidimensional array ``A`` along the given dimension.
 
@@ -163,7 +176,6 @@ Sorting Functions
 .. function:: sortcols(A, [alg=<algorithm>,] [by=<transform>,] [lt=<comparison>,] [rev=false])
 
    Sort the columns of matrix ``A`` lexicographically.
-
 
 Order-Related Functions
 -----------------------
@@ -205,7 +217,6 @@ Order-Related Functions
 
    Variant of ``select!`` which copies ``v`` before partially sorting it, thereby
    returning the same thing as ``select!`` but leaving ``v`` unmodified.
-
 
 Sorting Algorithms
 ------------------
