@@ -290,7 +290,7 @@ static void jl_serialize_globalvals(ios_t *s)
     for(i=0; i < len; i+=2) {
         void *offs = p[i+1];
         if (offs != HT_NOTFOUND) {
-            uintptr_t pos = offs - HT_NOTFOUND - 1;
+            uintptr_t pos = (uintptr_t)offs - (uintptr_t)HT_NOTFOUND - 1;
             int32_t gv = jl_get_llvm_gv((jl_value_t*)p[i]);
             if (gv != 0) {
                 write_int32(s, pos);
@@ -604,7 +604,7 @@ static void jl_serialize_value_(ios_t *s, jl_value_t *v)
     else {
         bp = ptrhash_bp(&backref_table, v);
         if (*bp != HT_NOTFOUND) {
-            uintptr_t pos = *bp - HT_NOTFOUND - 1;
+            uintptr_t pos = (uintptr_t)*bp - (uintptr_t)HT_NOTFOUND - 1;
             if ((uptrint_t)*bp < 65536) {
                 write_uint8(s, ShortBackRef_tag);
                 write_uint16(s, pos);
@@ -631,7 +631,7 @@ static void jl_serialize_value_(ios_t *s, jl_value_t *v)
         }
         if (mode == MODE_MODULE || mode == MODE_MODULE_POSTWORK)
             pos <<= 1;
-        ptrhash_put(&backref_table, v, HT_NOTFOUND + pos + 1);
+        ptrhash_put(&backref_table, v, (void*)((ptrint_t)HT_NOTFOUND + pos + 1));
     }
 
     size_t i;
@@ -1896,7 +1896,7 @@ DLLEXPORT int jl_save_incremental(const char *fname, jl_array_t *worklist)
     JL_SIGATOMIC_BEGIN();
     arraylist_new(&reinit_list, 0);
     htable_new(&backref_table, 5000);
-    ptrhash_put(&backref_table, jl_main_module, HT_NOTFOUND + 1);
+    ptrhash_put(&backref_table, jl_main_module, (void*)((uintptr_t)HT_NOTFOUND + 1));
     backref_table_numel = 1;
     jl_idtable_type = jl_base_module ? jl_get_global(jl_base_module, jl_symbol("ObjectIdDict")) : NULL;
 
